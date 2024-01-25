@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "vectortable",
+  "private_key_id": "f34f819c54e11884d63309d403857e7f0d1590ca",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC77Td/EZW416b9\nM94patshENOXNv8b8WXYccvx1rx5I0H2iz084pzRYLbCQz/8NEZTLuHlK1kByMyI\npLsveEJq8+4K/GwsY+pNlngIxUTYfiMqeA52SZOMV71q7rMNTTwDzGwalw1L9+Jp\nimeYSAB0btRgial4kG8zrH2eq2tgeLdkQB/SQRAgELuWBJTtTLLGMR0fC1oo7NpL\nn02ZhOb7bzbOq/y59Mr+6gGRHGfpbRNhAPAcr8Zmti8DQo8dYy++tMZ6cNaLfGTS\nQHVJtFf0baqEC4jmqliXH2W26BNqqW+dX5S2DeAt2V6SQW9eZ1cthcH1rJwMbl3T\n68oX4T6XAgMBAAECggEAOYn+LffSYdAVnv0cjo3bHhqqzmfWYFXfGxBso1VeS7DR\n54zmaRfxb+Iu0vgIRU40Ig/+tk45aGR0y3m0nmox29FoFxEGhejpumvRwM21sJue\nZMhxlSId/SB4LJ99TxtQvtD+YH3TYmk5d5sa8PNKwFuWxyAfNXzzr1ym8cgGjnih\nCFNojzFJhqCG1rKhyXwJcR2cvzQPjWaVDoR6nkama0Qltu9Tyu2buLUFiCiKMxkR\nr3wGUiaom9jk61OEXwPYnheDV5jW0zfh/o8siosBm2DdY/NWdzzROzM5xJe7JnZ2\nGlPcSZhyHC4eL/Ualj+fvnBn0pCxbQFECxNUdTc70QKBgQDpsWjjFWtThDwgwMfx\nHpFZOeaq7ooZ5m7QH1uN36U7XUak+mvgmHBIhmLQAsxhokUqRNPlL1hT66ZS654a\nBvZo4uf10wRpwzJ3i3cXIIKtCx8tywRb9bgpkHVY5ao5ytXVd08Slrw5Uav4OxFa\nvO48oaNxbn9/5Bbj3YBrme7tpQKBgQDN3XJPnJW75TaXoLtr87TbYhmItaLR9jlR\n4j/OFPLtCpfod4nKTGrVHMoRQ2w9jL8vCrOJ99DrD9nVQFWkl1p8lTjBDLgMYgm2\nsUzWMNrCR2cgKqP9hodeW4yrRdRlhmRsL0ayLO9eYyCjHkVnpFQA+pHVmyYER1Wm\nw5MNWEN+iwKBgHoAOofC2OMi99kJi9hfYvY3+ipmmgZnfJZ+qGdqyHIzgfwDGGqK\naqQSNGfv7g9SjdVBVXYiv3QgZBaKF2HzHJUpUHvPjFBCrYgncSbLvCzmz4IyqLXx\nlBFu7zRXwgSl1fi5brh/pQgvkR3oiGjclWtl31QKodl8lE6lhrOmC0xZAoGBALi+\nWwBA2ErHd0d5cdh92zbpgVqjDhv4KBZowLOzLxI0aICxDdGi5FidvmThqbhOn5+a\nreZJo43fKrBqTLEpNoYI7+anAF/0dx0hXX/2Vcr1gwFl4sb4vHCcHc/yGZqGkYZY\nosvw8Vs2ACsCVmydFtnOA6O62NIMJjxC1KusIt3jAoGAD1LxWzgK8COZDsAMTsZn\nI1OECEegpXVM5jttImNX9rMolBHKJIVvxueNoSC1UlvXriy+W+AD1zKvYY0yG6V9\nFsA1+6yeVSFuPnqMADwe/VpQoVTaFmRgHTZTPAWMCV6kD9kKQ9MW8KcufOqvqN5h\nSr3h71cj7HQn4A5owkJdZU4=\n-----END PRIVATE KEY-----\n",
+  "client_email": "vladimirkushhov@vectortable.iam.gserviceaccount.com",
+  "client_id": "110146345656323576449",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/vladimirkushhov%40vectortable.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
