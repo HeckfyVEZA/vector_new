@@ -599,7 +599,7 @@ def compl_tab(vector, doc, block, bio_doc, G, rezerv): # Наполняет та
         remove_row(table, table.rows[-1])
 
     vector = vector.upper().replace('C','С')
-    doc.paragraphs[-2].add_run().add_picture(f"C:\\Users\\kushhov\\Desktop\\vector\\Scheme\\{'-'.join(vector.split('-')[1:3])}{'Р' if rrr else ''}.bmp", width=Mm(90))
-    doc.paragraphs[-2].add_run().add_picture(f"C:\\Users\\kushhov\\Desktop\\vector\\Scheme\\legend.bmp", width=Mm(60)) # БЛЯ ЛОЛ################################################################################################################################
+    doc.paragraphs[-2].add_run().add_picture(f"Scheme/{'-'.join(vector.split('-')[1:3])}{'Р' if rrr else ''}.bmp", width=Mm(90))
+    doc.paragraphs[-2].add_run().add_picture("Scheme/legend.bmp", width=Mm(60)) # БЛЯ ЛОЛ################################################################################################################################
     doc.save(bio_doc)
     return doc
