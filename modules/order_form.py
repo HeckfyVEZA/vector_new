@@ -213,7 +213,7 @@ def fulfil_temp(cblank,type_scheme,Data_frame,rezerve,developer_name): # Сам�
 
     #doc.add_picture('C:\\Users\\kushhov\\Desktop\\vector-main\\scheme.jpg')
     doc.paragraphs[-2].add_run().add_picture(path, width=Mm(90)).alignment =  WD_ALIGN_PARAGRAPH.CENTER
-    doc.paragraphs[-2].add_run().add_picture(f"C:\\Users\\kushhov\\Desktop\\vector\\Scheme\\legend.bmp", width=Mm(60)) # БЛЯ 
+    doc.paragraphs[-2].add_run().add_picture("Scheme/legend.bmp", width=Mm(60)) # БЛЯ 
     return doc
 
    # file_zip.write('C:\\Users\\kushhov\\Desktop\\vector-main\\test'+str(x+1)+'.docx', compress_type=zipfile.ZIP_DEFLATED)
