@@ -18,7 +18,7 @@ main_tab = st.tabs(['Автоматический режим', 'Полуавто
 
 if 'frame_google' not in st.session_state:
     #Data_frame_google = table_vector()
-    Data_frame_google = pd.read_excel(r'\Scheme\Table_vector.xlsx')
+    Data_frame_google = pd.read_excel('Scheme/Table_vector.xlsx')
     st.session_state['frame_google'] = Data_frame_google
 
 # Номера бланка | Блок | Схема | Клапан | Сторона | Теплообменник | Расход жидкости | Доля жидкости | Резерв
