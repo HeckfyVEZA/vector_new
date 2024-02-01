@@ -14,7 +14,7 @@ from modules.vector_canal import many_bl_kanal
 
 st.set_page_config(layout="wide") 
 st.session_state['developer'] = st.text_input('Введите имя разработчика') #Вводим имя инженера
-main_tab = st.tabs(['Автоматический режим', 'Полуавтоматический режим', 'Ручной режим','По бланкам канального оборудования']) #Возможность выбрать режим
+main_tab = st.tabs(['По бланкам ВЕРОСА','По бланкам канального оборудования','Ручной режим']) #Возможность выбрать режим
 
 if 'frame_google' not in st.session_state:
     #Data_frame_google = table_vector()
@@ -99,6 +99,8 @@ def automate_foo(ind,vector_podbor = bool):
             
     if nn > 0:
         #Блок отвечающий за подбор в полуавтоматическом режиме
+        
+
         Data_frame = pd.DataFrame(Data_table)
 
         if vector_podbor: #Если это полуавтоматический режим
@@ -112,7 +114,7 @@ def automate_foo(ind,vector_podbor = bool):
             col = st.columns(5) # Делим на два столбца
             #all = col[0].checkbox(label ='Множественный выбор',key=ind+790)
             col[0].write('Множественный выбор')
-            all_col_vector_scheme = col[1].selectbox( 'Схема', ('По умолчанию','1', '2', '3','4','4М','5','5М','6','6М'),key=ind+777)
+            all_col_vector_scheme = col[1].selectbox( 'Схема', ('По умолчанию','1', '2', '3','4','4М','5','5М','6'),key=ind+777)
             all_col_vector_valve = col[2].selectbox( 'Клапан', ('По умолчанию','С', 'Ш'),key=ind+767)
             all_col_vector_side = col[3].selectbox( 'Сторона', ('По умолчанию','П', 'Л'),key=ind+768)
             all_col_rezerve = col[4].selectbox( 'Резерв', ('По умолчанию','0', '1'),key=ind+789)
@@ -127,19 +129,8 @@ def automate_foo(ind,vector_podbor = bool):
             if all_col_rezerve != 'По умолчанию':    
                 Data_frame['Резерв'] =  all_col_rezerve
 
-            #Проверка на несовместимости!
-            #for i in range(len(Teplo_inf)):
-            #    if (Data_frame['Схема'].values[i]) != 3 and (Teplo_inf[i] == 'ВОВ'):
-            #        Data_frame['Схема'].values[i] = 3
 
-            #if 'error' not in st.session_state:
-            #    st.session_state['error'] = 0
-            #else:
-            #    st.session_state['error'] += 1
-                    
-
-            #if not st.session_state['error']:
-            #    st.warning('Внимание:', icon="⚠️")
+            #Data_frame['Схема'] = '3'
 
             edit_frame = st.data_editor(
             Data_frame,
@@ -152,9 +143,10 @@ def automate_foo(ind,vector_podbor = bool):
                 options=['0', '1'],
                 required=True,
             ),
+     
             "Схема": st.column_config.SelectboxColumn(
                 width="small",
-                options=['1', '2', '3','4','4М','5','5М','6','6М'],
+                options=['1', '2', '3','4','4М','5','5М','6'],
                 required=True,
             ),
 
@@ -169,10 +161,20 @@ def automate_foo(ind,vector_podbor = bool):
                 options=['П', 'Л'],
                 required=True,
             )
+                
                 },
            disabled=["Название бланка","Теплообменник","Расход жидкости","Доля гликоля"],
            #Попробуем через session state
             )
+
+
+            ##Проверка на несовместимости!
+            #for i in range(len(Teplo_inf)):edit_frame
+            #    if ((edit_frame['Схема'].values[i]) != '3') and (Teplo_inf[i] == 'ВОВ'):
+            #        st.write((Data_frame['Схема'].values[i]))
+            #        st.write(Teplo_inf[i])
+            #        edit_frame['Схема'].values[i] = '3'
+            #        #st.warning('Внимание:', icon="⚠️❗")
 
         else: #Если это автоматический режим
             st.dataframe(Data_frame, use_container_width = True, hide_index = True)
@@ -182,7 +184,116 @@ def automate_foo(ind,vector_podbor = bool):
         # загрузить архив - для автомата
         #Временно вынесу все полезные переменные
 
-        if st.button("Сформировать", type="primary",key=ind+999):
+        error = False
+        
+        #Проверка на охладители!
+        for i in range(len(Teplo_inf)):
+            if ((edit_frame['Схема'].values[i]) != '3') and (Teplo_inf[i] == 'ВОВ'):
+                st.warning('Внимание, охладители должны быть выполнены по третьей схеме', icon="⚠️")
+                break
+
+
+        #Проверка на клапаны
+        for i in range(len(edit_frame['Схема'])):
+            if ((edit_frame['Схема'].values[i]) == '1') and (edit_frame['Клапан'].values[i] == 'Ш'):
+                st.warning('Внимание, схема - 1 может быть только с седельным клапаном', icon="⚠️")
+                break
+
+        for i in range(len(edit_frame['Схема'])):
+            if ((edit_frame['Схема'].values[i]) == '3') and (edit_frame['Клапан'].values[i] == 'Ш'):
+                st.warning('Внимание, схема - 3 может быть только с седельным клапаном', icon="⚠️")
+                break
+
+        for i in range(len(edit_frame['Схема'])):
+            if ((edit_frame['Схема'].values[i]) == '4М') and (edit_frame['Клапан'].values[i] == 'Ш'):
+                st.warning('Внимание, схема - 4М может быть только с седельным клапаном', icon="⚠️")
+                break
+
+        for i in range(len(edit_frame['Схема'])):
+            if ((edit_frame['Схема'].values[i]) == '6') and (edit_frame['Клапан'].values[i] == 'С'):
+                st.warning('Внимание, схема - 6 может быть только с Шаровым клапаном', icon="⚠️")
+                break
+
+        #Проверка на типоразмер
+        #st.write(type_scheme_list)
+        #for i in range(len(edit_frame['Схема'])):
+        #    type_size = type_scheme_list[i][2]
+        #    type_klapan = type_scheme_list[i][1]
+        #    if ((edit_frame['Схема'].values[i]) == '1') and (type_size in  {10,11}):
+        #        st.error(f'Внимание,в строке {i+1} схема - 1, не соответсвует типоразмеру {type_size}', icon="❗")
+        #    if ((edit_frame['Схема'].values[i]) == '6') and (type_size in  {1,2,3,9,10,11}):
+        #        st.error(f'Внимание,в строке {i+1} схема - 6, не соответсвует типоразмеру {type_size}', icon="❗")
+#
+        #    if ((edit_frame['Схема'].values[i]) == '2') and (type_size in  {9,10,11}) and (type_klapan == 'Ш'):
+        #        st.error(f'Внимание,в строке {i+1} схема  - 2 с шаровым клапаном, не соответсвует типоразмеру {type_size}', icon="❗")
+        #    if ((edit_frame['Схема'].values[i]) == '4') and (type_size in  {9,10,11}) and (type_klapan == 'Ш'):
+        #        st.error(f'Внимание,в строке {i+1} схема  - 2 с шаровым клапаном, не соответсвует типоразмеру {type_size}', icon="❗")
+        #    if ((edit_frame['Схема'].values[i]) == '5') and (type_size in  {9,10,11}) and (type_klapan == 'Ш'):
+        #        st.error(f'Внимание,в строке {i+1} схема  - 2 с шаровым клапаном, не соответсвует типоразмеру {type_size}', icon="❗")
+        #    if ((edit_frame['Схема'].values[i]) == '5М') and (type_size in  {9,10,11}) and (type_klapan == 'Ш'):
+        #        st.error(f'Внимание,в строке {i+1} схема  - 2 с шаровым клапаном, не соответсвует типоразмеру {type_size}', icon="❗")
+
+
+
+
+
+        if st.button("Сформировать", type="primary",key=ind+999,disabled=error):
+
+            #Повторная проверка на охладители, если что не так, то исправляем!
+            one_and_stop = True #Выводим сообщение только один раз
+
+            for i in range(len(Teplo_inf)):
+                if ((edit_frame['Схема'].values[i]) != '3') and (Teplo_inf[i] == 'ВОВ'):
+                    edit_frame['Схема'].values[i] = '3'
+                    if one_and_stop:
+                        st.info('Внимание, охладители должны быть выполнены по третьей схеме, при формировании бланков были внесены корректировки', icon="ℹ")
+                        one_and_stop = False
+
+
+            #Проверка на клапаны, если что не так, то исправляем!
+            one_and_stop = True
+            for i in range(len(edit_frame['Схема'])):
+                if ((edit_frame['Схема'].values[i]) == '1') and (edit_frame['Клапан'].values[i] == 'Ш'):
+                    edit_frame['Клапан'].values[i] = 'С'
+                    if one_and_stop:
+                        st.info('Внимание, схема - 1 может быть только с седельным клапаном, при формировании бланков были внесены корректировки', icon="ℹ")
+                        one_and_stop = False
+
+            one_and_stop = True
+            for i in range(len(edit_frame['Схема'])):
+                if ((edit_frame['Схема'].values[i]) == '3') and (edit_frame['Клапан'].values[i] == 'Ш'):
+                    edit_frame['Клапан'].values[i] = 'С'
+                    if one_and_stop:
+                        st.info('Внимание, схема - 3 может быть только с седельным клапаном, при формировании бланков были внесены корректировки', icon="ℹ")
+                        one_and_stop = False
+
+            one_and_stop = True
+            for i in range(len(edit_frame['Схема'])):
+                if ((edit_frame['Схема'].values[i]) == '4М') and (edit_frame['Клапан'].values[i] == 'Ш'):
+                    edit_frame['Клапан'].values[i] = 'С'
+                    if one_and_stop:
+                        st.info('Внимание, схема - 4М может быть только с седельным клапаном, при формировании бланков были внесены корректировки', icon="ℹ")
+                        one_and_stop = False
+
+            one_and_stop = True
+            for i in range(len(edit_frame['Схема'])):
+                if ((edit_frame['Схема'].values[i]) == '6') and (edit_frame['Клапан'].values[i] == 'С'):
+                    edit_frame['Клапан'].values[i] = 'Ш'
+                    if one_and_stop:
+                        st.info('Внимание, схема - 6 может быть только с Шаровым клапаном, при формировании бланков были внесены корректировки', icon="ℹ")
+                        one_and_stop = False
+
+
+
+
+
+
+
+
+
+
+
+
             if vector_podbor:
                 for i in range(nn):
                     vector_scheme = edit_frame['Схема'].values[i]
@@ -199,7 +310,6 @@ def automate_foo(ind,vector_podbor = bool):
                     List_cblank[i] = cblank
                     type_scheme_list[i] = type_scheme
                     cvector_list[i] = cvector
-
 
             progress_text = "Пожалуйста, подождите"
             my_bar = st.progress(0, text=progress_text)
@@ -272,14 +382,14 @@ def automate_foo(ind,vector_podbor = bool):
                     my_bar.progress(i*part, text=progress_text)
                     ###################################
                 BZ = List_BZ[j]
-                #Здесь формируются таблицы (а точнее фреймы) Выполняется во внешнем цикле file
+                #Здесь формируются таблицы (а точнее фреймы) Выполняется во внеШнем цикле file
                 df_verosa, df_cost = many_bl(file,vals,name_file,BZ,key_cost,cvector_list_file,vector_podbor,rezerve_list_file) 
                 all_df_cost = pd.concat([all_df_cost,df_cost])
                 all_df_verosa = pd.concat([all_df_verosa,df_verosa])
                 j +=1
 
             if j == len(f):
-                #БЛОК ЗАПОЛНЕНИЯ ТАБЛИЦ (внешний цикл)
+                #БЛОК ЗАПОЛНЕНИЯ ТАБЛИЦ (внеШний цикл)
                 output = io.BytesIO()
                 all_df_verosa.to_excel(output, index=False)
                 name = 'ВЕКТОР ВЕРОСА.xlsx'
@@ -295,7 +405,7 @@ def automate_foo(ind,vector_podbor = bool):
                 with ZipFile(Archive, mode='a') as archive:
                     archive.writestr(name,output.getvalue())
                 my_bar.empty()
-                st.download_button('💾Загрузить Архив: ', data=Archive.getvalue(), file_name=name_archive,key=ind+6) # Для каждого файла свой архив (относится к внешнему циклу)
+                st.download_button('💾Загрузить Архив: ', data=Archive.getvalue(), file_name=name_archive,key=ind+6) # Для каждого файла свой архив (относится к внеШнему циклу)
 
 def vector_form_foo(ind,col,vector_scheme):
     col[0].write(f'Узелрегулирующий ВЕКТОР:')
@@ -322,11 +432,9 @@ def vector_form_foo(ind,col,vector_scheme):
             origin = 6
         case "6":
             origin = 7
-        case "6М":
-            origin = 8
 
 
-    vector_scheme = col[0].selectbox( 'Схема', ('1', '2', '3','4','4М','5','5М','6','6М'),key=ind+111,index=origin)
+    vector_scheme = col[0].selectbox( 'Схема', ('1', '2', '3','4','4М','5','5М','6'),key=ind+111,index=origin)
     if vector_scheme in ('1','3','4М'):
         vector_valve = 'С'
         col[0].write('Клапан: С')
@@ -365,11 +473,10 @@ def semi_auto_foo(col,cblank,ind,vector_scheme):
             origin = 6
         case "6":
             origin = 7
-        case "6М":
-            origin = 8
 
 
-    vector_scheme = col[1].selectbox( '', ('1', '2', '3','4','4М','5','5М','6','6М'),key=ind+111,index=origin)
+
+    vector_scheme = col[1].selectbox( '', ('1', '2', '3','4','4М','5','5М','6'),key=ind+111,index=origin)
     if vector_scheme in ('1','3','4М'):
         vector_valve = 'С'
         col[2].write('С')
@@ -387,8 +494,8 @@ def semi_auto_foo(col,cblank,ind,vector_scheme):
     vector_side = col[3].selectbox( '', ('Л', 'П'),key=ind+333,index=1)
     return vector_scheme, vector_valve, vector_side, rezerve
 
-with main_tab[0]: # Для автоматического режима 
-    automate_foo(0,False)
+#with main_tab[0]: # Для автоматического режима 
+#    automate_foo(0,False)
 
 with  main_tab[2]: # Для ручного режима
     col = st.columns(2) # Делим на два столбца
@@ -479,11 +586,11 @@ with  main_tab[2]: # Для ручного режима
     with ZipFile(Archive, mode='a') as archive:
         archive.writestr(name,output.getvalue())
     name_archive = cblank['order form']+'.zip'
-    st.download_button('💾Загрузить Архив: ', data=Archive.getvalue(), file_name=name_archive) # Для каждого файла свой архив (относится к внешнему циклу)
+    st.download_button('💾Загрузить Архив: ', data=Archive.getvalue(), file_name=name_archive) # Для каждого файла свой архив (относится к внеШнему циклу)
 
-with  main_tab[1]: #Полуавтоматический режим: ВЕКТОК-схема-клапан-сторона и резерв
+with  main_tab[0]: #Полуавтоматический режим: ВЕКТОК-схема-клапан-сторона и резерв
     automate_foo(400,True)
 
-with main_tab[3]: #Каналка
+with main_tab[1]: #Каналка
     f = st.file_uploader("Перетяните бланки сюда", accept_multiple_files=True) #Виджет ввода бланков()
     many_bl_kanal(f,231023,st.session_state['developer'])
