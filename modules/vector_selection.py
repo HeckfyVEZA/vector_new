@@ -10,7 +10,8 @@ def selection(scheme:str, valve:str, G:float, side:str):
     Returns:
         (str): Наименование ВЕКТОР
     """
-    valve = valve.lower()
+    
+    valve = valve.upper()
     G = 1000*G
     def TIS(G:float): # Определяем типоразмер для схемы с седельным клапаном
         match G:
@@ -59,8 +60,8 @@ def selection(scheme:str, valve:str, G:float, side:str):
             case G if 10000 <= G < 14000:
                 return "8"
     match valve:
-        case 'ш':
+        case 'Ш':
             TR = TIH(G)
-        case 'с':
+        case 'С':
             TR = TIS(G)
     return f"ВЕКТОР-{scheme}-{valve}-{TR}-{side}-С+".upper() , scheme, valve, TR
