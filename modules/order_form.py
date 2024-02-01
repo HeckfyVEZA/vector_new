@@ -54,12 +54,21 @@ def gabar_table(doc, vector, rezerv): # Заполняет таблицу с г�
     doc.tables[3].autofit
     return doc
 
+def temps(valve:str, keyword): # Определяет температурные диапазоны для ВЕКТОРа
+    match valve:
+            case "С":
+                temperatures = {"3": "0...+50 °C", "1": "+5...+150 °C","2": "+5...+150 °C", "4": "+5...+120 °C", "4М": "+5...+150 °C", "5": "+5...+120 °C", "5М": "+5...+120 °C", "6": "+5...+120 °C", "6М": "+5...+120 °C"}
+            case "Ш":
+                temperatures = {"2": "+5...+120 °C", "4": "+5...+120 °C", "4М": "+5...+150 °C", "5": "+5...+120 °C", "5М": "+5...+120 °C", "6": "+5...+120 °C", "6М": "+5...+120 °C"}
+    return temperatures[keyword]
+
+
 # doc = d('C:\\Users\\kushhov\\Desktop\\vector-main\\template.docx')
 def fulfil_temp(cblank,type_scheme,Data_frame,rezerve,developer_name): # Сама функция вывода всего и вся в test.doc
     #st.write(type_scheme)
     #st.write(cblank)
     current_date = ".".join(str(date.today()).split("-")[::-1])
-    doc = d('template_1.docx')
+    doc = d('C:\\Users\\kushhov\\Desktop\\vector\\template_1.docx')
     #doc = d('./template.docx')
     # Таблица шапки
     doc.tables[0].rows[0].cells[0].paragraphs[0].text = f"Узел Регулирующий для бланк-заказа\n№{cblank['order form']} от {current_date}"
@@ -78,7 +87,10 @@ def fulfil_temp(cblank,type_scheme,Data_frame,rezerve,developer_name): # Сам�
     #st.write(doc.tables[0].style)
     doc.tables[2].rows[0].cells[1].text = f"На основании {int(cblank['glycol'])}% {cblank['glycol type'][:-1]}я" if cblank['glycol'] else modules.assitent_info.pure_water
     doc.tables[2].rows[0].cells[1].paragraphs[0].alignment=WD_ALIGN_PARAGRAPH.CENTER
-    doc.tables[2].rows[1].cells[1].text = str(cblank['temperature']).replace(".",",")  
+    #doc.tables[2].rows[1].cells[1].text = str(cblank['temperature']).replace(".",",")
+      
+    doc.tables[2].rows[1].cells[1].text = temps(type_scheme[1], type_scheme[0])
+
     doc.tables[2].rows[1].cells[1].paragraphs[0].alignment=WD_ALIGN_PARAGRAPH.CENTER
     doc.tables[2].rows[2].cells[1].text = str(cblank['consumption']).replace(".",",")
     doc.tables[2].rows[2].cells[1].paragraphs[0].alignment=WD_ALIGN_PARAGRAPH.CENTER
@@ -154,7 +166,7 @@ def fulfil_temp(cblank,type_scheme,Data_frame,rezerve,developer_name): # Сам�
             path = '6-Ш.bmp'
 
     #st.write(path)
-    path ='Scheme/' + path
+    path ='C:\\Users\\kushhov\\Desktop\\vector\\Scheme\\' + path
     #path = f"./{path}"
    
 
@@ -186,7 +198,7 @@ def fulfil_temp(cblank,type_scheme,Data_frame,rezerve,developer_name): # Сам�
             n +=1
     doc.tables[4].autofit
     
-    if rezerve and type_scheme[1] != 'ш':
+    if rezerve and type_scheme[1] != 'Ш':
         rez_list = rezerving(str(type_scheme[2]))
         #st.write(rez_list)
         values_equipment1 = rez_list[0][0]
@@ -213,7 +225,7 @@ def fulfil_temp(cblank,type_scheme,Data_frame,rezerve,developer_name): # Сам�
 
     #doc.add_picture('C:\\Users\\kushhov\\Desktop\\vector-main\\scheme.jpg')
     doc.paragraphs[-2].add_run().add_picture(path, width=Mm(90)).alignment =  WD_ALIGN_PARAGRAPH.CENTER
-    doc.paragraphs[-2].add_run().add_picture("Scheme/legend.bmp", width=Mm(60)) # БЛЯ 
+    doc.paragraphs[-2].add_run().add_picture(f"C:\\Users\\kushhov\\Desktop\\vector\\Scheme\\legend.bmp", width=Mm(60)) # БЛЯ 
     return doc
 
    # file_zip.write('C:\\Users\\kushhov\\Desktop\\vector-main\\test'+str(x+1)+'.docx', compress_type=zipfile.ZIP_DEFLATED)
