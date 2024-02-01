@@ -68,7 +68,7 @@ def fulfil_temp(cblank,type_scheme,Data_frame,rezerve,developer_name): # Сам�
     #st.write(type_scheme)
     #st.write(cblank)
     current_date = ".".join(str(date.today()).split("-")[::-1])
-    doc = d('C:\\Users\\kushhov\\Desktop\\vector\\template_1.docx')
+    doc = d('template_1.docx')
     #doc = d('./template.docx')
     # Таблица шапки
     doc.tables[0].rows[0].cells[0].paragraphs[0].text = f"Узел Регулирующий для бланк-заказа\n№{cblank['order form']} от {current_date}"
@@ -166,7 +166,7 @@ def fulfil_temp(cblank,type_scheme,Data_frame,rezerve,developer_name): # Сам�
             path = '6-Ш.bmp'
 
     #st.write(path)
-    path ='C:\\Users\\kushhov\\Desktop\\vector\\Scheme\\' + path
+    path ='\\Scheme\\' + path
     #path = f"./{path}"
    
 
