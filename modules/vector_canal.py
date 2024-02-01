@@ -91,7 +91,75 @@ def many_bl_kanal(blanks,ind,developer_name):# Кусок кода, работа
                 )
         
 
+        #Проверка на клапаны
+        for i in range(len(edit_frame['Схема'])):
+            if ((edit_frame['Схема'].values[i]) == '1') and (edit_frame['Клапан'].values[i] == 'Ш'):
+                st.warning('Внимание, схема - 1 может быть только с седельным клапаном', icon="⚠️")
+                break
+
+        for i in range(len(edit_frame['Схема'])):
+            if ((edit_frame['Схема'].values[i]) == '3') and (edit_frame['Клапан'].values[i] == 'Ш'):
+                st.warning('Внимание, схема - 3 может быть только с седельным клапаном', icon="⚠️")
+                break
+
+        for i in range(len(edit_frame['Схема'])):
+            if ((edit_frame['Схема'].values[i]) == '4М') and (edit_frame['Клапан'].values[i] == 'Ш'):
+                st.warning('Внимание, схема - 4М может быть только с седельным клапаном', icon="⚠️")
+                break
+
+        for i in range(len(edit_frame['Схема'])):
+            if ((edit_frame['Схема'].values[i]) == '6') and (edit_frame['Клапан'].values[i] == 'С'):
+                st.warning('Внимание, схема - 6 может быть только с Шаровым клапаном', icon="⚠️")
+                break
+
+
+
+
+
+
+
+
+
+
+
         if st.button("Сформировать", type="primary",key=ind+999):
+
+
+
+                        #Проверка на клапаны, если что не так, то исправляем!
+            one_and_stop = True
+            for i in range(len(edit_frame['Схема'])):
+                if ((edit_frame['Схема'].values[i]) == '1') and (edit_frame['Клапан'].values[i] == 'Ш'):
+                    edit_frame['Клапан'].values[i] = 'С'
+                    if one_and_stop:
+                        st.info('Внимание, схема - 1 может быть только с седельным клапаном, при формировании бланков были внесены корректировки', icon="ℹ")
+                        one_and_stop = False
+
+            one_and_stop = True
+            for i in range(len(edit_frame['Схема'])):
+                if ((edit_frame['Схема'].values[i]) == '3') and (edit_frame['Клапан'].values[i] == 'Ш'):
+                    edit_frame['Клапан'].values[i] = 'С'
+                    if one_and_stop:
+                        st.info('Внимание, схема - 3 может быть только с седельным клапаном, при формировании бланков были внесены корректировки', icon="ℹ")
+                        one_and_stop = False
+
+            one_and_stop = True
+            for i in range(len(edit_frame['Схема'])):
+                if ((edit_frame['Схема'].values[i]) == '4М') and (edit_frame['Клапан'].values[i] == 'Ш'):
+                    edit_frame['Клапан'].values[i] = 'С'
+                    if one_and_stop:
+                        st.info('Внимание, схема - 4М может быть только с седельным клапаном, при формировании бланков были внесены корректировки', icon="ℹ")
+                        one_and_stop = False
+
+            one_and_stop = True
+            for i in range(len(edit_frame['Схема'])):
+                if ((edit_frame['Схема'].values[i]) == '6') and (edit_frame['Клапан'].values[i] == 'С'):
+                    edit_frame['Клапан'].values[i] = 'Ш'
+                    if one_and_stop:
+                        st.info('Внимание, схема - 6 может быть только с Шаровым клапаном, при формировании бланков были внесены корректировки', icon="ℹ")
+                        one_and_stop = False
+
+
             name_archive = 'Вектор-Канал.zip'
             Archive = io.BytesIO()
             vals = {} #Словарь
@@ -154,7 +222,8 @@ def many_bl_kanal(blanks,ind,developer_name):# Кусок кода, работа
                 i +=1
                 with ZipFile(Archive, mode='a') as archive:
                     archive.writestr(name, bio.getvalue())
-
+                    
+                
             st.download_button('💾Скачать Архив: ', Archive.getvalue(), file_name=name_archive,key=ind+98765)
 
 
