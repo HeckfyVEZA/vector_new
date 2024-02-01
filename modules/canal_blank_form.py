@@ -450,7 +450,7 @@ def work_with_template(way_to_excel): # Руководящий модуль по
         for i in range(len(blanki["Вектор"])):
             G = blanki["Расход поправочный"][i]
             vector = blanki["Вектор"][i]
-            doc = Document("template\\template_1.docx")
+            doc = Document("template_1.docx")
             head_tab(vector, axlsx["Номер БЗ"][i], doc)
             all_minfos = axlsx
             minfos = only_one_minfo(all_minfos, i)
@@ -602,8 +602,8 @@ def compl_tab(vector, doc, block, bio_doc, G, rezerv): # Наполняет та
         remove_row(table, table.rows[-1])
 
     vector = vector.upper().replace('C','С') 
-    doc.paragraphs[-2].add_run().add_picture(f"C:\\Users\\kushhov\\Desktop\\vector\\Scheme\\{'-'.join(vector.split('-')[1:3])}{'Р' if rrr else ''}.bmp", width=Mm(90))
-    doc.paragraphs[-2].add_run().add_picture(f"C:\\Users\\kushhov\\Desktop\\vector\\Scheme\\legend.bmp", width=Mm(60)) # БЛЯ ЛОЛ################################################################################################################################
+    doc.paragraphs[-2].add_run().add_picture(f"\\Scheme\\{'-'.join(vector.split('-')[1:3])}{'Р' if rrr else ''}.bmp", width=Mm(90))
+    doc.paragraphs[-2].add_run().add_picture(f"\\Scheme\\legend.bmp", width=Mm(60)) # БЛЯ ЛОЛ################################################################################################################################
     doc.save(bio_doc)
     return doc
 
