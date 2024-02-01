@@ -90,6 +90,7 @@ def fulfil_temp(cblank,type_scheme,Data_frame,rezerve,developer_name): # Сам�
     #doc.tables[2].rows[1].cells[1].text = str(cblank['temperature']).replace(".",",")
       
     doc.tables[2].rows[1].cells[1].text = temps(type_scheme[1], type_scheme[0])
+    doc.tables[2].rows[1].cells[0].text = f'Рабочий диапазон температур в точке подключения, °C: {str(cblank["temperature"]).replace(".",",")}'
 
     doc.tables[2].rows[1].cells[1].paragraphs[0].alignment=WD_ALIGN_PARAGRAPH.CENTER
     doc.tables[2].rows[2].cells[1].text = str(cblank['consumption']).replace(".",",")
