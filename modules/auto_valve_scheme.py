@@ -9,7 +9,7 @@ def valve(heat_exchanger:str, G:float, mflagistone=False):
         _type_: Тип клапана
     """
     if mflagistone:
-        return 'с'
+        return 'С'
     else:
         G = 1000*G
         heat_exchanger = heat_exchanger[1].lower()
@@ -17,11 +17,11 @@ def valve(heat_exchanger:str, G:float, mflagistone=False):
             case 'н':
                 match G:
                     case G if G<2000:
-                        return 'ш'
+                        return 'Ш'
                     case _:
-                        return 'с'
+                        return 'С'
             case 'о':
-                return 'с'
+                return 'С'
 def scheme(heat_exchanger:str, mflagistone=False):
     """Определение схемы
 
