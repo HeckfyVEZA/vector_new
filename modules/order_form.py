@@ -166,7 +166,7 @@ def fulfil_temp(cblank,type_scheme,Data_frame,rezerve,developer_name): # Сам�
             path = '6-Ш.bmp'
 
     #st.write(path)
-    path ='\\Scheme\\' + path
+    path ='Scheme/' + path
     #path = f"./{path}"
    
 
