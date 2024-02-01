@@ -458,7 +458,7 @@ def work_with_template(way_to_excel): # Руководящий модуль по
             block = f"{minfos['Номер БЗ']} - {minfos['Блок']}"
             tab_regime(minfos, all_dinfos[i] ,doc)
             gabar_table(doc, vector, minfos["Резерв"])
-            compl_tab(vector, doc, block, fway, G, minfos["Резерв"])
+            compl_tab_with_table(vector, doc, block, fway, G, minfos["Резерв"])
             print(f"БЛАНК {minfos['Номер БЗ']} - {minfos['Блок']} >>>>>>>>>> СФОРМИРОВАН")
 
 def work_with_canal_template(way_to_excel,blanks,developer_name): # # Руководящий модуль по работе с шаблоном для каналки
@@ -485,7 +485,7 @@ def work_with_canal_template(way_to_excel,blanks,developer_name): # # Руков
         gabar_table(doc, vector, minfos["Резерв"])
         block = f"{minfos['Номер БЗ']} - {minfos['Блок']}"
         name_doc = minfos['Бланк']
-        doc = compl_tab(vector, doc, block, bio_doc, G, minfos['Резерв'])
+        doc = compl_tab_with_table(vector, doc, block, bio_doc, G, minfos['Резерв'])
         doc_list.append(doc)
         name_doc_list.append(name_doc)
         print(f"БЛАНК {minfos['Номер БЗ']} - {minfos['Блок']} >>>>>>>>>> СФОРМИРОВАН")
@@ -564,6 +564,9 @@ def app_infos(minfos): # Выхватывает недостающие в таб
     print()
     return dop_info
 
+
+
+
 def compl_tab(vector, doc, block, bio_doc, G, rezerv): # Наполняет таблицу комплектации в шаблоне и сохраняет бланк
     from docx.shared import Mm
     print(G)
@@ -598,8 +601,86 @@ def compl_tab(vector, doc, block, bio_doc, G, rezerv): # Наполняет та
     for _ in range(1, len(table.rows) - len(elems)):
         remove_row(table, table.rows[-1])
 
-    vector = vector.upper().replace('C','С')
-    doc.paragraphs[-2].add_run().add_picture(f"Scheme/{'-'.join(vector.split('-')[1:3])}{'Р' if rrr else ''}.bmp", width=Mm(90))
-    doc.paragraphs[-2].add_run().add_picture("Scheme/legend.bmp", width=Mm(60)) # БЛЯ ЛОЛ################################################################################################################################
+    vector = vector.upper().replace('C','С') 
+    doc.paragraphs[-2].add_run().add_picture(f"C:\\Users\\kushhov\\Desktop\\vector\\Scheme\\{'-'.join(vector.split('-')[1:3])}{'Р' if rrr else ''}.bmp", width=Mm(90))
+    doc.paragraphs[-2].add_run().add_picture(f"C:\\Users\\kushhov\\Desktop\\vector\\Scheme\\legend.bmp", width=Mm(60)) # БЛЯ ЛОЛ################################################################################################################################
+    doc.save(bio_doc)
+    return doc
+
+
+#compl_tab_with_table
+def compl_tab_with_table(vector, doc, block, bio_doc, G, rezerv): # Наполняет таблицу комплектации из таблицы excel в шаблоне и сохраняет бланк
+    from docx.shared import Mm
+    print(G)
+    rep_spi = valve_recognition(float(G), vector)
+    elems, quanti = super_mega_giga(vector)
+    #st.write(elems)
+    #st.write(quanti)
+    table = doc.tables[-2]
+    rezez = rezerving(rezerv, vector)
+    rrr = True
+    if rezez is None:
+        rrr = False
+    else:
+        elems.append(rezez[0][0])
+        elems.append(rezez[1][0])
+        quanti.append(rezez[0][1])
+        quanti.append(rezez[1][1])
+    print(elems)
+    for ele in elems:
+        if "клапан" in ele.lower():
+            if "КССР" in ele or "КПСР" in ele or "Kvs" in ele:
+                rval = ele
+
+    ##################################################
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    Data_frame = pd.read_excel(r'Scheme\Table_vector.xlsx')
+    type_scheme = vector.split('-')
+    type_scheme.pop(0)
+    Number_Vector = f"{type_scheme[0]}-{type_scheme[1]}-{type_scheme[2]}"
+    Number_Vector = Number_Vector.upper().replace('С','C')
+    K_Number_Vector = f"К-{Number_Vector}"
+
+    n = 0
+    for i in range(1,13):
+        values_equipment = Data_frame[Number_Vector].values[i-1]
+        count_equipment =  Data_frame[K_Number_Vector].values[i-1]
+        doc.tables[4].rows[i].cells[1].text = str(values_equipment)
+        doc.tables[4].rows[i].cells[1].paragraphs[0].alignment=WD_ALIGN_PARAGRAPH.CENTER
+        doc.tables[4].rows[i].cells[2].text = str(count_equipment)
+        doc.tables[4].rows[i].cells[2].paragraphs[0].alignment=WD_ALIGN_PARAGRAPH.CENTER
+        if values_equipment != '-':
+            n +=1
+    doc.tables[4].autofit
+    
+    if rezerv and type_scheme[1] != 'Ш':
+        rez_list = rezerving(str(type_scheme[2]))
+        #st.write(rez_list)
+        values_equipment1 = rez_list[0][0]
+        count_equipment1  = rez_list[0][1]
+        values_equipment2 = rez_list[1][0]
+        count_equipment2  = rez_list[1][1]
+        doc.tables[4].rows[n+1].cells[1].text = str(values_equipment1)
+        doc.tables[4].rows[n+1].cells[1].paragraphs[0].alignment=WD_ALIGN_PARAGRAPH.CENTER
+        doc.tables[4].rows[n+1].cells[2].text = str(count_equipment1)
+        doc.tables[4].rows[n+1].cells[2].paragraphs[0].alignment=WD_ALIGN_PARAGRAPH.CENTER
+        doc.tables[4].rows[n+2].cells[1].text = str(values_equipment2)
+        doc.tables[4].rows[n+2].cells[1].paragraphs[0].alignment=WD_ALIGN_PARAGRAPH.CENTER
+        doc.tables[4].rows[n+2].cells[2].text = str(count_equipment2)
+        doc.tables[4].rows[n+2].cells[2].paragraphs[0].alignment=WD_ALIGN_PARAGRAPH.CENTER
+        n +=2
+
+    def remove_row(table, row): # Просто удаляет пустые строки
+        tbl, tr = table._tbl, row._tr
+        tbl.remove(tr)
+
+    for _ in range(20-n):
+        remove_row(doc.tables[4], doc.tables[4].rows[-1])
+    ##################################################
+        
+
+    vector = vector.upper().replace('C','С') 
+    doc.paragraphs[-2].add_run().add_picture(f"C:\\Users\\kushhov\\Desktop\\vector\\Scheme\\{'-'.join(vector.split('-')[1:3])}{'Р' if rrr else ''}.bmp", width=Mm(90))
+    doc.paragraphs[-2].add_run().add_picture(f"C:\\Users\\kushhov\\Desktop\\vector\\Scheme\\legend.bmp", width=Mm(60)) # БЛЯ ЛОЛ################################################################################################################################
     doc.save(bio_doc)
     return doc
