@@ -2,6 +2,8 @@ from docx2txt import process
 from re import findall as f_all
 import pandas as pd
 import streamlit as st
+from modules.vezamodule import Blank
+from docx import Document as d
 
 
 def many_bl(blank,vals,name_file,BZ,key_cost,cvector_list,vector_podbor,rezerve_list): # Кусок кода, работающий с ВЕРОСАми  ЗДЕСЬ ОТСЛЕЖИВАЕМ НАЛИЧИЕ_ГЛИКОЛЯ
@@ -10,7 +12,8 @@ def many_bl(blank,vals,name_file,BZ,key_cost,cvector_list,vector_podbor,rezerve_
     i = 0
 
     info_blank = file_read(blank)
-    
+    #st.write('info_blank')
+    #st.write(info_blank)
     for mini_info_blank in info_blank:
         mini_info_blank.append(round(mini_info_blank[3]/search_glic_ro(mini_info_blank[4], mini_info_blank[5]), 3))
         all_infos.append(mini_info_blank)
@@ -44,7 +47,7 @@ def many_bl(blank,vals,name_file,BZ,key_cost,cvector_list,vector_podbor,rezerve_
         Vs = cvector_list
         rezervs = rezerve_list
     allsis = {"Бланк": short_blank,
-              "Блок": blocks,
+            "Блок": blocks,
              "Теплообменник": TOs,
             "Расход жидкости": GnGs,
                 "Температура на входе": Ts,
@@ -126,16 +129,26 @@ def table_costs(BZs, Vectors, Rezervs,Glycol_found,short_blank,blocks): #зде�
 
 def file_read(file): # Поиск информации в бланке ВЕРОСА
     all_info = [i for i in process(file).split("\n") if i] 
+    #st.write('all_info')
+    #st.write(all_info)
     all_vecs = []
     i = 0
-    for item in all_info:
+    blank = Blank(d(file))
+    ALL_MAIN_INFO = blank.ALL_MAIN_INFO  # САМОЕ ВАЖНОЕ - все блоки разбиты по отдельным абазацам for item in all_info:
+    main_information = blank.main_information
+    #st.write('main_information')
+    #st.write(main_information)
+    composed_docx = list(ALL_MAIN_INFO.values())
+
+    #st.write(composed_docx)
+    for item in composed_docx: #composed_docx
         if " ВНВ" in item or " ВОВ" in item:
             G, TO = float(f_all(r"[GV]ж=([0-9.,]+)", item.replace(",","."))[0]), f_all(r"(В[НО]В[0-9.\-]+)",item)[0]
-            block_num = all_info[all_info.index(item)-1]
+            #block_num = all_info[all_info.index(item)-1]
             g_s = f_all(r"ленгл: (\d+?)%", item)
             glycol = int(g_s[0]) / 100 if len(g_s) != 0 else 0
             tzhn = float(f_all(r"tжн\*?=(-?\d+[\.,]?\d*?)°C", item)[0].replace(",", "."))
-            all_vecs.append(['z', block_num, TO, G, tzhn, glycol, 'z'])
+            all_vecs.append(['z', 'block_num', TO, G, tzhn, glycol, 'z'])
         i += 1
     return all_vecs
 
