@@ -7,5 +7,3 @@ zipp==3.16.2
 streamlit==1.26.0
 python-docx==0.8.11
 openpyxl==3.1.2
-dadata==21.10.1
-PySimpleGUI==4.60.4
