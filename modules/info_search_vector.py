@@ -2,7 +2,7 @@ from docx2txt import process
 from re import findall
 import streamlit as st
 from modules.vezamodule import Blank
-#from vezamodule import Blank
+from vezamodule import Blank
 from docx import Document as d
 
 def search_glic_ro(T, part): # Определяет плотность теплоносителя, основываясь на температуре и содержании гликоля
