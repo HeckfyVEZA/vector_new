@@ -76,7 +76,7 @@ from typing import Literal
 
 from pandas import DataFrame, ExcelWriter
 from dadata import Dadata
-from PySimpleGUI import popup, popup_yes_no, popup_get_text, theme, LOOK_AND_FEEL_TABLE
+#from PySimpleGUI import popup, popup_yes_no, popup_get_text, theme, LOOK_AND_FEEL_TABLE
 from docx import Document
 from docx.text.paragraph import Paragraph
 from docx.document import Document as Doc
@@ -99,7 +99,7 @@ SUPPORTED_EXCTENTIONS_FOR_BLANK = ('.docx', '.doc', '.rtf', '.pdf', '.xml')
 
 # ===========================================================================================================
 
-popup_true_false = lambda question:popup_yes_no(question) == 'Yes'
+#popup_true_false = lambda question:popup_yes_no(question) == 'Yes'
 mul_1000 = lambda x:str(floor(float(x) * 1000))
 div_1000 = lambda x:str(round(float(x) / 1000))
 
@@ -185,7 +185,8 @@ def decision(question:str, the_type:type, limit_do=0, limit_up=0, use_pysimplegu
 
     if the_type == bool:
         if use_pysimplegui:
-            answer = popup_true_false(question)
+            pass
+            #answer = popup_true_false(question)
         else:
             answer = ''
             while type(answer) != bool:
@@ -199,19 +200,19 @@ def decision(question:str, the_type:type, limit_do=0, limit_up=0, use_pysimplegu
     else:
         answer = ''
         while not isinstance(answer, the_type):
-            answer = popup_get_text(question) if use_pysimplegui else input(question + '\n')
+            #answer = popup_get_text(question) if use_pysimplegui else input(question + '\n')
             if answer is None:
                 return None
             try:
                 answer = the_type(answer)
             except ValueError:
                 err_mess = 'Некорректно введённое значение.'
-                popup(err_mess) if use_pysimplegui else print(err_mess)
+                #popup(err_mess) if use_pysimplegui else print(err_mess)
             else:
                 if not (limit_do <= answer <= limit_up):
                     err_mess = 'Значение за пределами диапазона.'
                     answer = ''
-                    popup(err_mess) if use_pysimplegui else print(err_mess)
+                    #popup(err_mess) if use_pysimplegui else print(err_mess)
     return answer
 
 def the_new_order(file, fpos, tpos):
@@ -356,19 +357,20 @@ def veza_design():
     """Простенький метод, который задаёт созданное Майей оформление для программок
     """
 
-    LOOK_AND_FEEL_TABLE['MyCreatedTheme'] = {
-    'BACKGROUND': '#BECBBA',
-    'TEXT': '#172412',
-    'INPUT': '#ECF4E7',
-    'TEXT_INPUT': '#172412',
-    'SCROLL': '#172412',
-    'BUTTON': ('#172412', '#EEFFFF'),
-    'PROGRESS': ('#172412', '#EEFFFF'),
-    'BORDER': 3, 
-    'SLIDER_DEPTH': 2, 
-    'PROGRESS_DEPTH': 2, }  
-    # Switch to use your newly created theme
-    theme('MyCreatedTheme')
+    #LOOK_AND_FEEL_TABLE['MyCreatedTheme'] = {
+    #'BACKGROUND': '#BECBBA',
+    #'TEXT': '#172412',
+    #'INPUT': '#ECF4E7',
+    #'TEXT_INPUT': '#172412',
+    #'SCROLL': '#172412',
+    #'BUTTON': ('#172412', '#EEFFFF'),
+    #'PROGRESS': ('#172412', '#EEFFFF'),
+    #'BORDER': 3, 
+    #'SLIDER_DEPTH': 2, 
+    #'PROGRESS_DEPTH': 2, }  
+    ## Switch to use your newly created theme
+    ##theme('MyCreatedTheme')
+    pass
 
 def convert_using_win32(old_filename:str|Path, new_filename:str|Path, extension:str, to_print=True):
     """Конвертация всего, что можно открыть в Ворде, в docx. Иногда оно можно не сработать по непонятным мне причинам - я попытался это предусмотреть, однако есть ещё вероятность, что что-то может пойти наперекосяк. Модуль win32 - мощный инструмент. Возможно, даже слишком мощный. Не гарантируется работоспособность на других операционных системах
@@ -571,7 +573,8 @@ def xlsx_file_beautifulication(file_name:str|BytesIO, df_name) -> (BytesIO | Non
         try:
             writer = ExcelWriter(file_name, engine='xlsxwriter')  # Дальше идут довольно абстрактные строчки, потому что я их взял из интернета. Вот вы знали, что в пандасе есть ЭксельРайтер? теперь знаете. И вот я не знал
         except PermissionError:  # Вообще сомневаюсь, что кто-то будет держать сводную таблицу открытой, но во избежание это надо сделать, потому что обычно сводную таблицу забываю закрыть я
-            popup('Закройте файл!')  # Просто всплывающее окошко - назойливое, но настойчивое
+            #popup('Закройте файл!')  # Просто всплывающее окошко - назойливое, но настойчивое
+            pass
         else:
             no_permission_error = True
     no_permission_error = False  # Ещё раз перезадаю переменную, а то мало ли
