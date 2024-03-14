@@ -18,7 +18,7 @@ main_tab = st.tabs(['По бланкам ВЕРОСА','По бланкам ка
 
 if 'frame_google' not in st.session_state:
     #Data_frame_google = table_vector()
-    Data_frame_google = pd.read_excel('Scheme/ВЕКТОР_ТАБЛИЦА.xlsx')
+    Data_frame_google = pd.read_excel(r'Scheme\Table_vector.xlsx')
     st.session_state['frame_google'] = Data_frame_google
 
 # Номера бланка | Блок | Схема | Клапан | Сторона | Теплообменник | Расход жидкости | Доля жидкости | Резерв
@@ -80,13 +80,14 @@ def automate_foo(ind,vector_podbor = bool):
             type_scheme =[vector_scheme,vector_valve,type_size] 
             #Попробуем создать список из словарей cblank
             
+            cblank['consumption_from_blank'] = cinfo[-1][1]
             Data_table['Название бланка'].append(name_file)
             Data_table['Схема'].append(vector_scheme)
             Data_table['Клапан'].append(vector_valve)
             #Data_table['Типоразмер'].append(type_size)
             Data_table['Сторона'].append(vector_side) 
             Data_table['Теплообменник'].append(cblank['intermediate coolant'])
-            Data_table['Расход жидкости'].append(cblank['consumption'])
+            Data_table['Расход жидкости'].append(cblank['consumption_from_blank'])
             Data_table['Доля гликоля'].append(cblank['glycol'])
             Data_table['Резерв'].append(0) #По умолчанию для всех резерв = 0
 
@@ -525,7 +526,8 @@ with  main_tab[2]: # Для ручного режима
     #Формирование поправочной цены
 
     realG = cblank["consumption"] /search_glic_ro(cblank["temperature"], cblank["glycol"]/100)
-
+    cblank['consumption_from_blank'] = cblank["consumption"]
+    cblank["consumption"] = realG
     #Формирование вектора
 
     
