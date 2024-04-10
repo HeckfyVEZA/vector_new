@@ -69,7 +69,7 @@ def fulfil_temp(cblank,type_scheme,Data_frame,rezerve,developer_name): # Сам�
     #st.write(type_scheme)
     #st.write(cblank)
     current_date = ".".join(str(date.today()).split("-")[::-1])
-    doc = d('C:\\Users\\kushhov\\Desktop\\vector\\template_1.docx')
+    doc = d('template_1.docx')
     #doc = d('./template.docx')
     # Таблица шапки
     doc.tables[0].rows[0].cells[0].paragraphs[0].text = f"Узел Регулирующий для бланк-заказа\n№{cblank['order form']} от {current_date}"
@@ -169,7 +169,7 @@ def fulfil_temp(cblank,type_scheme,Data_frame,rezerve,developer_name): # Сам�
             path = '6-Ш.bmp'
 
     #st.write(path)
-    path ='C:\\Users\\kushhov\\Desktop\\vector\\Scheme\\' + path
+    path ='\\Scheme\\' + path
     #path = f"./{path}"
    
 
@@ -230,7 +230,7 @@ def fulfil_temp(cblank,type_scheme,Data_frame,rezerve,developer_name): # Сам�
 
     #doc.add_picture('C:\\Users\\kushhov\\Desktop\\vector-main\\scheme.jpg')
     doc.paragraphs[-2].add_run().add_picture(path, width=Mm(90)).alignment =  WD_ALIGN_PARAGRAPH.CENTER
-    doc.paragraphs[-2].add_run().add_picture(f"C:\\Users\\kushhov\\Desktop\\vector\\Scheme\\legend.bmp", width=Mm(60)) # БЛЯ 
+    doc.paragraphs[-2].add_run().add_picture(f"\\Scheme\\legend.bmp", width=Mm(60)) # БЛЯ 
     return doc
 
    # file_zip.write('C:\\Users\\kushhov\\Desktop\\vector-main\\test'+str(x+1)+'.docx', compress_type=zipfile.ZIP_DEFLATED)
