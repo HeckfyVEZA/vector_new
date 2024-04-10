@@ -154,7 +154,7 @@ def fulfil_temp(cblank,type_scheme,Data_frame,rezerve,developer_name): # Сам�
         case "5-С":
             path = '5-С.bmp'
         case "5-СР":
-            path = '5-С.bmp'
+            path = '5-СР.bmp'
         case "5-Ш":
             path = '5-Ш.bmp'
         case "5-ШР":
