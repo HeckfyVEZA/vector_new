@@ -636,7 +636,7 @@ def compl_tab_with_table(vector, doc, block, bio_doc, G, rezerv): # Наполн
 
     ##################################################
     from docx.enum.text import WD_ALIGN_PARAGRAPH
-    Data_frame = pd.read_excel(r'Scheme\Table_vector.xlsx')
+    Data_frame = pd.read_excel(r'Scheme/Table_vector.xlsx')
     type_scheme = vector.split('-')
     type_scheme.pop(0)
     Number_Vector = f"{type_scheme[0]}-{type_scheme[1]}-{type_scheme[2]}"
