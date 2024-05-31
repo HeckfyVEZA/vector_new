@@ -233,22 +233,25 @@ def file_read_kanal(way:str): # Поиск информации в бланке 
     doc = Document(way)
     for tab in doc.tables:
         for row in tab.rows:
-            for cell in row.cells:
-                try:
-                    TO = f_all(r"(Канал-КВ[НО][А-Яа-я0-9\-]+)", cell.text)[0]
-                    G = float(f_all(r"[GV]ж=([0-9.,]+)", cell.text)[0].replace(",","."))
-                    tzhn = float(f_all(r"tжн=([0-9.,]+)", cell.text)[0].replace(",","."))
-                    block_num = "-"
-                    g_s = f_all(r"ленгликоль [-]*? ?([0-9.,]+)", cell.text)
-                    glycol = float((g_s[0])) / 100 if len(g_s) != 0 else 0
-                    all_vecs.append([way, block_num, TO, G, tzhn, glycol, way])
-                    break
-                except:
-                    if "Спектральные (дБ) и суммарные (дБА) уровни звуковой мощности" in cell.text:
-                        key_ = True
+            try:
+                for cell in row.cells:
+                    try:
+                        TO = f_all(r"(Канал-КВ[НО][А-Яа-я0-9\-]+)", cell.text)[0]
+                        G = float(f_all(r"[GV]ж=([0-9.,]+)", cell.text)[0].replace(",","."))
+                        tzhn = float(f_all(r"tжн=([0-9.,]+)", cell.text)[0].replace(",","."))
+                        block_num = "-"
+                        g_s = f_all(r"ленгликоль [-]*? ?([0-9.,]+)", cell.text)
+                        glycol = float((g_s[0])) / 100 if len(g_s) != 0 else 0
+                        all_vecs.append([way, block_num, TO, G, tzhn, glycol, way])
                         break
-                    else:
-                        pass
+                    except:
+                        if "Спектральные (дБ) и суммарные (дБА) уровни звуковой мощности" in cell.text:
+                            key_ = True
+                            break
+                        else:
+                            pass
+            except:
+                pass
             if key_:
                 break
         if key_:
