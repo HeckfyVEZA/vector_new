@@ -524,10 +524,11 @@ def app_infos_canal(minfos,test_blank): # Выхватывает недоста�
                     continue
                 else:
                     organiz = "" if len(organiz) == 0 else organiz
+                # st.write([i.text for i in row.cells])
                 if "название:" in cell.text.lower():
                     try:
                         nazv = row.cells[11].text
-                    execpt:
+                    except:
                         nazv = row.cells[5].text
                     continue
                 else:
@@ -609,8 +610,8 @@ def compl_tab(vector, doc, block, bio_doc, G, rezerv): # Наполняет та
         remove_row(table, table.rows[-1])
 
     vector = vector.upper().replace('C','С') 
-    doc.paragraphs[-2].add_run().add_picture(f"C:\\Users\\kushhov\\Desktop\\vector\\Scheme\\{'-'.join(vector.split('-')[1:3])}{'Р' if rrr else ''}.bmp", width=Mm(90))
-    doc.paragraphs[-2].add_run().add_picture(f"C:\\Users\\kushhov\\Desktop\\vector\\Scheme\\legend.bmp", width=Mm(60)) # БЛЯ ЛОЛ################################################################################################################################
+    doc.paragraphs[-2].add_run().add_picture(f"/Scheme/{'-'.join(vector.split('-')[1:3])}{'Р' if rrr else ''}.bmp", width=Mm(90))
+    doc.paragraphs[-2].add_run().add_picture(f"/Scheme/egend.bmp", width=Mm(60)) # БЛЯ ЛОЛ################################################################################################################################
     doc.save(bio_doc)
     return doc
 
@@ -639,7 +640,7 @@ def compl_tab_with_table(vector, doc, block, bio_doc, G, rezerv): # Наполн
 
     ##################################################
     from docx.enum.text import WD_ALIGN_PARAGRAPH
-    Data_frame = pd.read_excel(r'Scheme/Table_vector.xlsx')
+    Data_frame = pd.read_excel('Scheme/Table_vector.xlsx')
     type_scheme = vector.split('-')
     type_scheme.pop(0)
     Number_Vector = f"{type_scheme[0]}-{type_scheme[1]}-{type_scheme[2]}"
@@ -686,7 +687,7 @@ def compl_tab_with_table(vector, doc, block, bio_doc, G, rezerv): # Наполн
         
 
     vector = vector.upper().replace('C','С') 
-    doc.paragraphs[-2].add_run().add_picture(f"Scheme/{'-'.join(vector.split('-')[1:3])}{'Р' if rrr else ''}.bmp", width=Mm(90))
-    doc.paragraphs[-2].add_run().add_picture(f"Scheme/legend.bmp", width=Mm(60)) # БЛЯ ЛОЛ################################################################################################################################
+    doc.paragraphs[-2].add_run().add_picture(fr"Scheme/{'-'.join(vector.split('-')[1:3])}{'Р' if rrr else ''}.bmp", width=Mm(90))
+    doc.paragraphs[-2].add_run().add_picture(fr"Scheme/legend.bmp", width=Mm(60)) # БЛЯ ЛОЛ################################################################################################################################
     doc.save(bio_doc)
     return doc
