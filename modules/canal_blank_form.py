@@ -525,7 +525,10 @@ def app_infos_canal(minfos,test_blank): # Выхватывает недоста�
                 else:
                     organiz = "" if len(organiz) == 0 else organiz
                 if "название:" in cell.text.lower():
-                    nazv = row.cells[11].text
+                    try:
+                        nazv = row.cells[11].text
+                    execpt:
+                        nazv = row.cells[5].text
                     continue
                 else:
                     nazv = "" if len(nazv) == 0 else nazv
