@@ -23,9 +23,7 @@ def many_bl_kanal(blanks,ind,developer_name):# Кусок кода, работа
     def read_blanks(blanks):
         Data_table = {'Название бланка':[],'Блок':[],'Схема':[],'Клапан':[],'Сторона':[],'Теплообменник':[],'Расход жидкости':[],'Доля гликоля':[],'Включён':[],'Резерв':[],} #Пустные столбцы
         for blank in blanks:
-            st.write("Доходит сюда1")
             info_blank = file_read_kanal(blank)
-            st.write("Доходит сюда2")
             blank_name = blank.name
             for mini_info_blank in info_blank:
                 mini_info_blank.append(round(mini_info_blank[3]/search_glic_ro(mini_info_blank[4], mini_info_blank[5]), 3))
@@ -116,19 +114,7 @@ def many_bl_kanal(blanks,ind,developer_name):# Кусок кода, работа
                 break
 
 
-
-
-
-
-
-
-
-
-
         if st.button("Сформировать", type="primary",key=ind+999):
-
-
-
                         #Проверка на клапаны, если что не так, то исправляем!
             one_and_stop = True
             for i in range(len(edit_frame['Схема'])):
@@ -243,11 +229,9 @@ def file_read_kanal(way:str): # Поиск информации в бланке 
                         G = float(f_all(r"[GV]ж=([0-9.,]+)", cell.text)[0].replace(",","."))
                         tzhn = float(f_all(r"tжн=([0-9.,]+)", cell.text)[0].replace(",","."))
                         block_num = "-"
-                        st.write("Доходит сюда5 ")
                         g_s = f_all(r"ленгликоль [-]*? ?([0-9.,]+)", cell.text)
                         glycol = float((g_s[0])) / 100 if len(g_s) != 0 else 0
                         all_vecs.append([way, block_num, TO, G, tzhn, glycol, way])
-                        st.write("Доходит сюда6 ")
                         break
                     except:
                         if "Спектральные (дБ) и суммарные (дБА) уровни звуковой мощности" in cell.text:
@@ -261,7 +245,6 @@ def file_read_kanal(way:str): # Поиск информации в бланке 
                 break
         if key_:
             break
-    st.write("Доходит сюда4")
     return all_vecs
 
 def scheme_recognition(valve, G): # Функция, выбирающая то, какую функцию мы будем использовать для определения полного названия ВЕКТОРа
